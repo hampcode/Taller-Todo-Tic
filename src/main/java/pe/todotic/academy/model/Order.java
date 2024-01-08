@@ -1,15 +1,15 @@
-package pe.todotic.academy.dto;
+package pe.todotic.academy.model;
 
-import lombok.*;
-
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import java.time.LocalDate;
+
 
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class OrderResponse {
+public class Order {
     private String orderId;
     private String status;
     private String accountId;

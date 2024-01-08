@@ -5,9 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.todotic.academy.dto.OrderRequest;
 import pe.todotic.academy.dto.OrderResponse;
-
-import java.util.ArrayList;
-import java.time.LocalDate;
+import pe.todotic.academy.model.Order;
+import pe.todotic.academy.service.OrderService;
+import pe.todotic.academy.converter.EntityDtoConverter;
 import java.util.List;
 
 
@@ -15,59 +15,29 @@ import java.util.List;
 @RequestMapping("/orders")
 public class OrderController {
 
+    private final OrderService orderService;
+    private final EntityDtoConverter converter;
+
+    public OrderController(OrderService orderService, EntityDtoConverter converter) {
+        this.orderService = orderService;
+        this.converter = converter;
+    }
+
     @GetMapping
     public ResponseEntity<List<OrderResponse>> findAllOrders() {
-        List<OrderResponse> orderList = new ArrayList<>();
-
-        OrderResponse response01 = OrderResponse.builder()
-                .accountId("999819")
-                .orderId("11123")
-                .status("PENDING")
-                .totalAmount(100.00)
-                .totalTax(10.00)
-                .transactionDate(LocalDate.now())
-                .build();
-
-        OrderResponse response02 = OrderResponse.builder()
-                .accountId("999819")
-                .orderId("11124")
-                .status("PENDING")
-                .totalAmount(120.00)
-                .totalTax(12.00)
-                .transactionDate(LocalDate.now())
-                .build();
-
-        orderList.add(response01);
-        orderList.add(response02);
-
-        return new ResponseEntity<>(orderList, HttpStatus.OK);
+        List<Order> orders = orderService.findAllOrders();
+        return new ResponseEntity<>(converter.convertEntityToDto(orders), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{orderId}")
     public ResponseEntity<OrderResponse> getOrderById (@PathVariable String orderId) {
-        OrderResponse response = OrderResponse.builder()
-                .accountId("999819")
-                .orderId(orderId)
-                .status("PENDING")
-                .totalAmount(100.00)
-                .totalTax(10.00)
-                .transactionDate(LocalDate.now())
-                .build();
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        Order order = orderService.findOrderById(orderId);
+        return new ResponseEntity<>(converter.convertEntityToDto(order), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest orderRequest) {
-        OrderResponse response = OrderResponse.builder()
-                .accountId(orderRequest.getAccountId())
-                .orderId("9999")
-                .status("PENDING")
-                .totalAmount(100.00)
-                .totalTax(10.00)
-                .transactionDate(LocalDate.now())
-                .build();
-
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        Order order = orderService.createOrder(orderRequest);
+        return new ResponseEntity<>(converter.convertEntityToDto(order), HttpStatus.CREATED);
     }
 }
