@@ -3,6 +3,7 @@ package pe.todotic.academy.service;
 import org.springframework.stereotype.Service;
 import pe.todotic.academy.dto.OrderRequest;
 import pe.todotic.academy.model.Order;
+import pe.todotic.academy.repository.OrderRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,54 +12,31 @@ import java.util.List;
 
 @Service
 public class OrderService {
+
+    private final OrderRepository orderRepository;
+
+    public OrderService(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+
     public Order createOrder(OrderRequest orderRequest) {
 
-        return Order.builder()
+        Order order = Order.builder()
                 .accountId(orderRequest.getAccountId())
-                .orderId("9999")
                 .status("PENDING")
-                .totalAmount(100.00)
-                .totalTax(10.00)
+                .totalAmount(orderRequest.getTotalAmount())
+                .totalTax(orderRequest.getTotalTax())
                 .transactionDate(LocalDate.now())
                 .build();
+
+        return orderRepository.save(order);
     }
 
     public List<Order> findAllOrders() {
-        List<Order> orders = new ArrayList<>();
-
-        Order order01 = Order.builder()
-                .accountId("999819")
-                .orderId("11123")
-                .status("PENDING")
-                .totalAmount(100.00)
-                .totalTax(10.00)
-                .transactionDate(LocalDate.now())
-                .build();
-
-        Order order02 = Order.builder()
-                .accountId("999819")
-                .orderId("11124")
-                .status("PENDING")
-                .totalAmount(120.00)
-                .totalTax(12.00)
-                .transactionDate(LocalDate.now())
-                .build();
-
-        orders.add(order01);
-        orders.add(order02);
-
-        return orders;
-
+        return orderRepository.findAll();
     }
 
     public Order findOrderById(String orderId) {
-       return Order.builder()
-               .accountId("999819")
-               .orderId(orderId)
-               .status("PENDING")
-               .totalAmount(100.00)
-               .totalTax(10.00)
-               .transactionDate(LocalDate.now())
-               .build();
+        return orderRepository.findByOrderId(orderId).orElse(null);
     }
 }
