@@ -21,12 +21,11 @@ public class OrderService {
     }
 
     public Order createOrder(OrderRequest orderRequest) {
-
         Order order = Order.builder()
-                .accountId(orderRequest.getAccountId())
+                .accountId(orderRequest.accountId())
                 .status("PENDING")
-                .totalAmount(orderRequest.getTotalAmount())
-                .totalTax(orderRequest.getTotalTax())
+                .totalAmount(orderRequest.totalAmount())
+                .totalTax(orderRequest.totalTax())
                 .transactionDate(LocalDate.now())
                 .build();
 
@@ -44,10 +43,9 @@ public class OrderService {
 
     public Optional<Order> updateOrder(String orderId, OrderRequest orderRequest) {
         return orderRepository.findByOrderId(orderId).map(existingOrder -> {
-
-            existingOrder.setAccountId(orderRequest.getAccountId());
-            existingOrder.setTotalAmount(orderRequest.getTotalAmount());
-            existingOrder.setTotalTax(orderRequest.getTotalTax());
+            existingOrder.setAccountId(orderRequest.accountId());
+            existingOrder.setTotalAmount(orderRequest.totalAmount());
+            existingOrder.setTotalTax(orderRequest.totalTax());
             return orderRepository.save(existingOrder);
         });
     }
