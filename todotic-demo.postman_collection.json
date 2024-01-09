@@ -1,0 +1,148 @@
+{
+	"info": {
+		"_postman_id": "baec201b-4620-49eb-8a0a-7a52638694e7",
+		"name": "todotic-demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6246033"
+	},
+	"item": [
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "find-all-orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/orders",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-order-by-id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/orders/f695a341-44a4-494b-b307-3da5e281ebe1",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"orders",
+								"f695a341-44a4-494b-b307-3da5e281ebe1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"accountId\": \"999430\",\r\n    \"totalAmount\": 130.00,\r\n    \"totalTax\": 13.00\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/orders",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-order-by-id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/orders/f695a341-44a4-494b-b307-3da5e281ebe1",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"orders",
+								"f695a341-44a4-494b-b307-3da5e281ebe1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-order",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"accountId\": \"999823\",\r\n    \"totalAmount\": 110.00,\r\n    \"totalTax\": 14.00\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/orders/c102ba66-d5fc-4cff-87b5-02b974209dbc",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"orders",
+								"c102ba66-d5fc-4cff-87b5-02b974209dbc"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base-url",
+			"value": "http://localhost:8080/api/v1",
+			"type": "string"
+		}
+	]
+}

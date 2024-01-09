@@ -8,6 +8,7 @@ import pe.todotic.academy.repository.OrderRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -38,5 +39,20 @@ public class OrderService {
 
     public Order findOrderById(String orderId) {
         return orderRepository.findByOrderId(orderId).orElse(null);
+    }
+
+
+    public Optional<Order> updateOrder(String orderId, OrderRequest orderRequest) {
+        return orderRepository.findByOrderId(orderId).map(existingOrder -> {
+
+            existingOrder.setAccountId(orderRequest.getAccountId());
+            existingOrder.setTotalAmount(orderRequest.getTotalAmount());
+            existingOrder.setTotalTax(orderRequest.getTotalTax());
+            return orderRepository.save(existingOrder);
+        });
+    }
+
+    public void deleteOrder(String orderId) {
+        orderRepository.findByOrderId(orderId).ifPresent(orderRepository::delete);
     }
 }

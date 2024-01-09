@@ -40,4 +40,20 @@ public class OrderController {
         Order order = orderService.createOrder(orderRequest);
         return new ResponseEntity<>(converter.convertEntityToDto(order), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{orderId}")
+    public ResponseEntity<OrderResponse> updateOrder(@PathVariable String orderId, @RequestBody OrderRequest orderRequest) {
+        return orderService.updateOrder(orderId, orderRequest)
+                .map(converter::convertEntityToDto)
+                .map(ResponseEntity::ok)
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable String orderId) {
+        orderService.deleteOrder(orderId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
 }
